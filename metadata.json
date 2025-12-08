@@ -1,0 +1,5 @@
+{
+  "name": "SnapMark & Compress",
+  "description": "A minimalist, client-side tool to watermark and compress images efficiently.",
+  "requestFramePermissions": []
+}

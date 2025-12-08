@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SnapMark - Compress & Watermark</title>
+    <!-- Google Fonts: Patrick Hand for English, ZCOOL KuaiLe for Chinese Display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'media', // Automatic dark mode based on system preference
+        theme: {
+          extend: {
+            fontFamily: {
+              hand: ['"Patrick Hand"', '"ZCOOL KuaiLe"', 'cursive', 'sans-serif'],
+              sans: ['"Patrick Hand"', 'system-ui', 'sans-serif'], // Defaulting to hand style for the vibe
+            },
+            colors: {
+              paper: {
+                50: '#fffdf5', // Warm paper light
+                100: '#fbf6e3',
+                200: '#f5eac0',
+                300: '#efd992',
+                400: '#e8c260',
+                500: '#e1a634',
+                800: '#5c4819',
+                900: '#3d3011',
+                dark: '#1c1917', // Stone 900 for dark mode paper
+              },
+              ink: {
+                light: '#292524', // Stone 800
+                DEFAULT: '#1c1917',
+                dim: '#57534e',
+                dark: '#e7e5e4', // Light ink for dark mode
+              },
+              crayon: {
+                blue: '#3b82f6',
+                red: '#ef4444',
+                green: '#22c55e',
+                orange: '#f97316',
+                yellow: '#eab308',
+                purple: '#a855f7'
+              }
+            },
+            backgroundImage: {
+              'paper-pattern': "url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmZmZGY1Ii8+CjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNlNWU1ZDUiLz4KPC9zdmc+')",
+              'paper-pattern-dark': "url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjMWMxOTE3Ii8+CjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiMzMzMiLz4KPC9zdmc+')",
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body {
+        font-family: 'Patrick Hand', 'ZCOOL KuaiLe', cursive, sans-serif;
+      }
+      
+      /* Custom scrollbar for sketchy look */
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 8px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background-color: #d6d3d1;
+        border-radius: 4px;
+        border: 2px solid transparent;
+        background-clip: content-box;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background-color: #a8a29e;
+      }
+
+      /* Sketchy borders utility */
+      .sketchy-border {
+        border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+        border-style: solid;
+      }
+      .sketchy-border-sm {
+        border-radius: 25px 5px 22px 5px / 5px 22px 5px 25px;
+      }
+      
+      .sketchy-input {
+        background-image: linear-gradient(transparent, transparent 28px, #94a3b8 28px);
+        background-size: 100% 32px;
+        line-height: 32px;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.556.0",
+    "react/": "https://aistudiocdn.com/react@^19.2.1/",
+    "react": "https://aistudiocdn.com/react@^19.2.1"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
