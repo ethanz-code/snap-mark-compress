@@ -14,11 +14,14 @@ export interface CompressionSettings {
 }
 
 export interface ImageFileState {
-  file: File | null;
-  previewSrc: string | null;
+  id: string;
+  file: File;
+  previewSrc: string;
+  imgElement: HTMLImageElement | null;
   originalWidth: number;
   originalHeight: number;
   originalSize: number; // in bytes
   processedSize: number | null; // in bytes
   processedBlob: Blob | null;
+  isProcessing: boolean;
 }

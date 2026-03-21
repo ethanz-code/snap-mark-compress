@@ -2,11 +2,12 @@ import React from 'react';
 import { Upload, Image as ImageIcon } from 'lucide-react';
 
 interface DropZoneProps {
-  onFileSelect: (file: File) => void;
+  onFilesSelect: (files: File[]) => void;
   t: any;
+  multiple?: boolean;
 }
 
-const DropZone: React.FC<DropZoneProps> = ({ onFileSelect, t }) => {
+const DropZone: React.FC<DropZoneProps> = ({ onFilesSelect, t, multiple = true }) => {
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -15,15 +16,16 @@ const DropZone: React.FC<DropZoneProps> = ({ onFileSelect, t }) => {
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    const files = e.dataTransfer.files;
-    if (files && files.length > 0 && files[0].type.startsWith('image/')) {
-      onFileSelect(files[0]);
+    const files = Array.from(e.dataTransfer.files).filter(file => file.type.startsWith('image/'));
+    if (files.length > 0) {
+      onFilesSelect(files);
     }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      onFileSelect(e.target.files[0]);
+      const files = Array.from(e.target.files);
+      onFilesSelect(files);
     }
   };
 
@@ -56,6 +58,7 @@ const DropZone: React.FC<DropZoneProps> = ({ onFileSelect, t }) => {
           id="file-upload"
           type="file"
           accept="image/*"
+          multiple={multiple}
           className="hidden"
           onChange={handleInputChange}
         />
