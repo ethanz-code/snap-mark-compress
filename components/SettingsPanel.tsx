@@ -1,6 +1,6 @@
 import React from 'react';
 import { WatermarkSettings, CompressionSettings } from '../types';
-import { Sliders, Type, Grid, FileDown, RotateCw, Droplets, Maximize2, Palette, Download } from 'lucide-react';
+import { Sliders, Type, Grid, FileDown, RotateCw, Droplets, Maximize2, Palette, Download, Archive, Loader2 } from 'lucide-react';
 
 interface SettingsPanelProps {
   watermarkSettings: WatermarkSettings;
@@ -8,11 +8,16 @@ interface SettingsPanelProps {
   compressionSettings: CompressionSettings;
   setCompressionSettings: React.Dispatch<React.SetStateAction<CompressionSettings>>;
   onDownload: () => void;
+  onDownloadAll?: () => void;
+  onBatchProcess?: () => void;
   isProcessing: boolean;
+  isBatchProcessing?: boolean;
   originalSize: number;
   processedSize: number | null;
   originalWidth: number;
   originalHeight: number;
+  imageCount?: number;
+  processedCount?: number;
   t: any;
 }
 
@@ -22,11 +27,16 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
   compressionSettings,
   setCompressionSettings,
   onDownload,
+  onDownloadAll,
+  onBatchProcess,
   isProcessing,
+  isBatchProcessing = false,
   originalSize,
   processedSize,
   originalWidth,
   originalHeight,
+  imageCount = 1,
+  processedCount = 0,
   t
 }) => {
   
@@ -227,9 +237,10 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
              )}
         </div>
         
+        {/* Single image download */}
         <button
           onClick={onDownload}
-          disabled={isProcessing}
+          disabled={isProcessing || isBatchProcessing}
           className="w-full flex items-center justify-center gap-2 bg-crayon-orange hover:bg-orange-500 text-white py-4 sketchy-border font-bold text-xl shadow-[4px_4px_0px_0px_#9a3412] hover:shadow-[2px_2px_0px_0px_#9a3412] hover:translate-x-[2px] hover:translate-y-[2px] transition-all transform disabled:opacity-70 disabled:cursor-not-allowed disabled:shadow-none disabled:translate-x-0 disabled:translate-y-0"
         >
           {isProcessing ? (
@@ -240,6 +251,54 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
             </>
           )}
         </button>
+        
+        {/* Batch operations - show when multiple images */}
+        {imageCount > 1 && (
+          <div className="flex gap-2 mt-3">
+            <button
+              onClick={onBatchProcess}
+              disabled={isBatchProcessing}
+              className="flex-1 flex items-center justify-center gap-2 bg-crayon-blue hover:bg-blue-600 text-white py-3 sketchy-border font-bold text-base shadow-[3px_3px_0px_0px_#1e40af] hover:shadow-[1px_1px_0px_0px_#1e40af] hover:translate-x-[2px] hover:translate-y-[2px] transition-all transform disabled:opacity-70 disabled:cursor-not-allowed"
+            >
+              {isBatchProcessing ? (
+                <Loader2 className="w-5 h-5 animate-spin" />
+              ) : (
+                <>
+                  <RotateCw className="w-5 h-5" /> {t.processAll}
+                </>
+              )}
+            </button>
+            
+            <button
+              onClick={onDownloadAll}
+              disabled={isBatchProcessing}
+              className="flex-1 flex items-center justify-center gap-2 bg-crayon-green hover:bg-green-600 text-white py-3 sketchy-border font-bold text-base shadow-[3px_3px_0px_0px_#166534] hover:shadow-[1px_1px_0px_0px_#166534] hover:translate-x-[2px] hover:translate-y-[2px] transition-all transform disabled:opacity-70 disabled:cursor-not-allowed"
+            >
+              {isBatchProcessing ? (
+                <Loader2 className="w-5 h-5 animate-spin" />
+              ) : (
+                <>
+                  <Archive className="w-5 h-5" /> {t.downloadZip}
+                </>
+              )}
+            </button>
+          </div>
+        )}
+        
+        {/* Progress indicator */}
+        {imageCount > 1 && (
+          <div className="mt-3 text-center">
+            <span className="text-sm font-mono text-ink-dim">
+              {processedCount}/{imageCount} {t.images}
+            </span>
+            <div className="w-full h-2 bg-paper-200 dark:bg-neutral-700 rounded-full mt-1 overflow-hidden">
+              <div 
+                className="h-full bg-crayon-green transition-all duration-300"
+                style={{ width: `${(processedCount / imageCount) * 100}%` }}
+              />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
